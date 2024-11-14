@@ -1,6 +1,6 @@
 provider "aws" {
- alias  = "LearningScalR"
-  region = var.aws_region
+  alias  = "LearningScalR"
+  region = "us-east-1"
 }
 
 resource "aws_api_gateway_rest_api" "example" {
