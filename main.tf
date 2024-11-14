@@ -1,4 +1,5 @@
 provider "aws" {
+ alias  = "LearningScalR"
   region = var.aws_region
 }
 
