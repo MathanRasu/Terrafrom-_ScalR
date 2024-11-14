@@ -31,9 +31,19 @@ resource "aws_api_gateway_integration" "mock_integration" {
 
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.example.id
-  stage_name  = "dev"
+
+  # Optional triggers to force redeployment if changes are detected
+  triggers = {
+    redeployment = sha1(jsonencode(aws_api_gateway_method.get_method))
+  }
 }
 
+# Define the API Gateway Stage (NEW RESOURCE)
+resource "aws_api_gateway_stage" "dev_stage" {
+  rest_api_id   = aws_api_gateway_rest_api.example.id
+  deployment_id = aws_api_gateway_deployment.deployment.id
+  stage_name    = "dev"
+}
 output "api_url" {
   value = aws_api_gateway_deployment.deployment.invoke_url
 }
